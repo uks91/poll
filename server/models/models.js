@@ -64,7 +64,8 @@ const Question = sequelize.define('question', {
     type: {type: DataTypes.INTEGER},
 })
 
-const Option = sequelize.define('submission', {
+const Option = sequelize.define('option', {
+    //console.log ("Option!")
     id : {type: DataTypes.INTEGER, primaryKey:true, autoIncrement: true},
     text: {type: DataTypes.TEXT}
 })
@@ -96,18 +97,6 @@ Answer.belongsTo(Question)
 
 Submission.hasMany(Answer)
 Answer.belongsTo(Submission)
-
-module.exports = {
-    User,
-    Basket,
-    BasketDevice,
-    Device,
-    Type,
-    Brand,
-    Rating,
-    TypeBrand,
-    DeviceInfo
-}
 
 module.exports = {
     User,
