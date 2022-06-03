@@ -10,14 +10,13 @@ class QuestionController {
 
     async getAll(req, res) {
         let {poll_id} = req.params
-        console.log("adfadvas...............................S")
-        console.log(this.question_id)
-        // const polls = await Question.findAll(
-        //     {
-        //         where: {poll_id : this.question_id}
-        //     }
-        // )
-        return res.json({"jj" : 87})
+
+        const polls = await Question.findAll(
+            {
+                where: {pollId : this.pollId}
+            }
+        )
+        return res.json(polls)
     }
 
     async getOne(req, res) {

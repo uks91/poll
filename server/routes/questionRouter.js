@@ -12,8 +12,7 @@ let id_question = 0
 // router.get('/:id', questionController.getOne)
 
 router.get('/', (req, res) => {
-    questionController["question_id"] = router.question_id
-    // return res.json({"nn" : router.question_id})
+    questionController["pollId"] = router.pollId
     return questionController.getAll(req, res)
 }
     )
