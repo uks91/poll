@@ -8,8 +8,8 @@ import PollsList from "../pages/PollsList";
 import NewPoll from "../pages/NewPoll";
 
 const AppRouter = () => {
-    const {user} = useContext(Context)
-    if (!user.isAuth)
+    const {userStore} = useContext(Context)
+    if (!userStore.isAuth)
         return (
             <Routes>
                 <Route path="/login" element={<Admin/>}/>

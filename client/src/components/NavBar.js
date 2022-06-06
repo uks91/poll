@@ -5,12 +5,12 @@ import {ADMIN_ROUTE, LOGIN_ROUTE} from "../utils/consts";
 import {useNavigate} from 'react-router-dom'
 
 const NavBar = () => {
-    const {user} = useContext(Context)
+    const {userStore} = useContext(Context)
     const navigate = useNavigate();
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
-                {user.isAuth ?
+                {userStore.isAuth ?
                     <Nav className="m-auto" style={{color: "white"}}>
                         <Button
                             variant={"outline-light"}
