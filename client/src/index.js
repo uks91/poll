@@ -1,27 +1,34 @@
-import React from 'react';
+import React, {createContext} from 'react';
 import ReactDOM from 'react-dom/client';
-import './index.css';
+// import './index.css';
 import App from './App';
+import UserStore from "./store/UserStore";
+// import {createRoot} from 'react-dom/client';
 // import reportWebVitals from './reportWebVitals';
-
-// const root = ReactDOM.createRoot(document.getElementById('root'));
-// root.render(
-//   <React.StrictMode>
-//     <App />
-//   </React.StrictMode>
-// );
 
 export const Context = createContext(null)
 
-ReactDOM.render(
+const root = ReactDOM.createRoot(document.getElementById('root'));
+root.render(
     <Context.Provider value={{
-        // user: new UserStore(),
+        user: new UserStore(),
         // device: new DeviceStore(),
     }}>
         <App />
-    </Context.Provider>,
-    document.getElementById('root')
+    </Context.Provider>
 );
+
+
+
+// ReactDOM.render(
+//     <Context.Provider value={{
+//         user: new UserStore(),
+//         // device: new DeviceStore(),
+//     }}>
+//         <App />
+//     </Context.Provider>,
+//     document.getElementById('root')
+// );
 
 // If you want to start measuring performance in your app, pass a function
 // to log results (for example: reportWebVitals(console.log))
