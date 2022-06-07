@@ -1,18 +1,20 @@
 import React, {useContext} from 'react';
 import {Context} from "../index";
-import {Route, Routes} from "react-router-dom";
+import {Route, Routes, Navigate} from "react-router-dom";
 import Admin from "../pages/Admin";
 import Users from "../pages/Users";
 import Poll from "../pages/Poll";
 import PollsList from "../pages/PollsList";
 import NewPoll from "../pages/NewPoll";
+import Auth from "../pages/Auth";
 
 const AppRouter = () => {
     const {userStore} = useContext(Context)
     if (!userStore.isAuth)
         return (
             <Routes>
-                <Route path="/login" element={<Admin/>}/>
+                <Route path="/login" element={<Auth/>}/>
+                <Route path="*" element={<Navigate to="/login"/>}/>
             </Routes>
         );
     return (
@@ -27,7 +29,7 @@ const AppRouter = () => {
                 <Route path="users" element={<Users/>}/>
             </Route>
             <Route path="/" element={<PollsList/>}/>
-            <Route path=":id" element={<Poll/>}/>
+            <Route path="polls/:id" element={<Poll/>}/>
 
         </Routes>
     );
