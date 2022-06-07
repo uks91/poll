@@ -2,6 +2,7 @@ import {makeAutoObservable} from "mobx";
 
 export default class UserStore {
     constructor() {
+        console.log("ctor!")
         this._isAuth = false
         this._user = {}
         this._users = [
@@ -20,6 +21,7 @@ export default class UserStore {
     }
 
     setIsAuth(bool) {
+        console.log("setIsAuth called!")
         this._isAuth = bool
     }
     setUser(user) {

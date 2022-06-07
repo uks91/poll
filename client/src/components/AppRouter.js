@@ -7,15 +7,18 @@ import Poll from "../pages/Poll";
 import PollsList from "../pages/PollsList";
 import NewPoll from "../pages/NewPoll";
 import Auth from "../pages/Auth";
+import {observer} from "mobx-react-lite";
 
-const AppRouter = () => {
+const AppRouter = observer(() => {
     const {userStore} = useContext(Context)
+    console.log("IsAuth: ", userStore.isAuth, userStore.user)
+    console.log(localStorage.token)
     if (!userStore.isAuth)
         return (
             <Routes>
                 <Route path="/login" element={<Auth/>}/>
                 <Route path="/registration" element={<Auth/>}/>
-                <Route path="*" element={<Navigate to="/login"/>}/>
+                {/*<Route path="*" element={<Navigate to="/login"/>}/>*/}
             </Routes>
         );
     return (
@@ -34,6 +37,6 @@ const AppRouter = () => {
 
         </Routes>
     );
-};
+});
 
 export default AppRouter;

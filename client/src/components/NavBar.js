@@ -3,10 +3,16 @@ import {Button, Container, Nav, Navbar, NavLink} from "react-bootstrap";
 import {Context} from "../index";
 import {ADMIN_ROUTE, LOGIN_ROUTE} from "../utils/consts";
 import {useNavigate} from 'react-router-dom'
+import {observer} from "mobx-react-lite";
 
-const NavBar = () => {
+const NavBar = observer(() => {
     const {userStore} = useContext(Context)
     const navigate = useNavigate();
+
+    const logOut = () => {
+        userStore.setUser({})
+        userStore.setIsAuth(false)
+    }
     return (
         <Navbar bg="dark" variant="dark">
             <Container>
@@ -20,7 +26,7 @@ const NavBar = () => {
                         </Button>
                         <Button
                             variant={"outline-light"}
-                            //onClick={() => logOut()}
+                            onClick={() => logOut()}
                             className="ml-2"
                         >
                             Выйти
@@ -70,6 +76,6 @@ const NavBar = () => {
         //     </Container>
         // </NavBar>
     );
-};
+});
 
 export default NavBar;

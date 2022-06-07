@@ -1,8 +1,9 @@
 import React, {useState} from 'react';
 import {Button, Card, Form, FormControl} from "react-bootstrap";
 import QuestionForm from "../components/QuestionForm";
+import {observer} from "mobx-react-lite";
 
-const NewPoll = () => {
+const NewPoll = observer(() => {
     const [quests, setQuest] = useState([])
 
     const addQuest = () => {
@@ -34,6 +35,6 @@ const NewPoll = () => {
             </Button>
         </Form>
     );
-};
+});
 
 export default NewPoll;

@@ -2,12 +2,14 @@ import React, {useContext, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
 import {Button, Card, Col, Container, Form, FormControl, FormLabel, Nav, NavItem, NavLink, Row} from "react-bootstrap";
-import {LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
-import {Link, useLocation} from "react-router-dom";
+import {HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
+import {Link, useLocation, useNavigate} from "react-router-dom";
+import {$login, $registration} from "../http/userAPI";
 
 const Auth = observer (() => {
-    const {user} = useContext(Context)
+    const {userStore} = useContext(Context)
     const location = useLocation()
+    const navigate = useNavigate()
     const isLogin = location.pathname === LOGIN_ROUTE
     const [login, setLogin] = useState("")
     const [pass, setPass] = useState("")
@@ -25,7 +27,20 @@ const Auth = observer (() => {
             setRepPass(passText)
     }
 
-    const btnClick = () => {
+    const btnClick = async () => {
+        try {
+            let data;
+            if (isLogin) {
+                data = await $login(login, pass)
+            } else {
+                data = await $registration(login, pass)
+            }
+            userStore.setUser(data)
+            userStore.setIsAuth(true)
+            navigate(HOME_ROUTE)
+        } catch (e) {
+            alert(e)
+        }
     }
 
     return (
