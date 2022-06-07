@@ -5,23 +5,23 @@ export default class PollsStore {
         this._polls = [
             {
                 "pollId": 1,
-                "pollName": "1",
-                // "questions" : [
-                //     {
-                //         "questionId":1,
-                //         "text" : "question11"
-                //     },
-                //     {
-                //         "questionId":2,
-                //         "text" : "question12"
-                //     },
-                // ]
+                "pollName": "pollName-1",
+                "questions" : [
+                    {
+                        "questionId":1,
+                        "text" : "question11"
+                    },
+                    {
+                        "questionId":2,
+                        "text" : "question12"
+                    },
+                ]
 
             },
 
             {
                 "pollId": 2,
-                "pollName": "2",
+                "pollName": "pollName-2",
                 // "questions" : [
                 //     {
                 //         "questionId":3,
@@ -36,6 +36,10 @@ export default class PollsStore {
             },
         ]
         makeAutoObservable(this)
+    }
+
+    getPoll (id) {
+        return this._polls.find((item) => item.pollId == id)
     }
 
     get polls () {

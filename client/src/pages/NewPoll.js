@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Form, FormControl} from "react-bootstrap";
+import {Button, Card, Form, FormControl} from "react-bootstrap";
 import QuestionForm from "../components/QuestionForm";
 
 const NewPoll = () => {
@@ -22,7 +22,9 @@ const NewPoll = () => {
             <Form.Label>Название опроса:</Form.Label>
             <FormControl as="textarea" placeholder="Новый опрос"></FormControl>
             {quests.map(quest =>
-                <QuestionForm quest={quest}/>
+                <Card className="mt-2">
+                    <QuestionForm quest={quest}/>
+                </Card>
             )}
             <Button onClick={addQuest}>
                 Добавить вопрос
