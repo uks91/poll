@@ -14,6 +14,7 @@ const AppRouter = () => {
         return (
             <Routes>
                 <Route path="/login" element={<Auth/>}/>
+                <Route path="/registration" element={<Auth/>}/>
                 <Route path="*" element={<Navigate to="/login"/>}/>
             </Routes>
         );
