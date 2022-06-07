@@ -1,5 +1,6 @@
 // const {Device, DeviceInfo} = require('../models/models')
 const ApiError = require('../error/ApiError');
+const {Question} = require("../models/models");
 // const {Poll} = require("../models/models");
 
 class QuestionController {
@@ -9,13 +10,13 @@ class QuestionController {
 
     async getAll(req, res) {
         let {poll_id} = req.params
-        console.log(req.params)
-        /*const polls = await Poll.findAll(
+
+        const polls = await Question.findAll(
             {
-                where: poll_id
+                where: {pollId : this.pollId}
             }
-        )*/
-        return res.json(poll_id)
+        )
+        return res.json(polls)
     }
 
     async getOne(req, res) {
