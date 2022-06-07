@@ -8,15 +8,19 @@ const NewPoll = observer(() => {
 
     const addQuest = () => {
         setQuest([...quests, {
-            name:"",
+            name:"ююю",
             type: 1,
-            options: [""]
+            options: ["12", "23", "34"]
         }])
     }
 
     // const removeQuest = (number) => {
     //
     // }
+
+    const savePoll = () => {
+        console.log(quests)
+    }
 
     return (
         <Form>
@@ -30,8 +34,8 @@ const NewPoll = observer(() => {
             <Button onClick={addQuest}>
                 Добавить вопрос
             </Button>
-            <Button onClick={() => console.log(quests)}>
-                test
+            <Button onClick={savePoll}>
+                Сохранить
             </Button>
         </Form>
     );

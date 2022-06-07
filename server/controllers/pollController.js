@@ -1,10 +1,30 @@
-const {Poll} = require('../models/models')
+const {Poll, Question, Option} = require('../models/models')
 const ApiError = require('../error/ApiError');
 
+const createOptions = async (options, questionId) => {
+    for (const item of options) {
+        const option = await Option.create({questionId: questionId, text:item})
+    }
+}
+
+const createQuestions = async (questions, pollId) => {
+    for (const item of questions) {
+        const question = await Question.create(
+            {
+                pollId: pollId,
+                text: item.text,
+                type: item.type
+            })
+        await createOptions(item.options, question.id)
+    }
+}
+
 class PollController {
+
     async create(req, res) {
-        const {name, description} = req.body
+        const {name, description, questions} = req.body
         const poll = await Poll.create({name, description})
+        await createQuestions(questions, poll.id)
         return res.json(poll)
     }
 
