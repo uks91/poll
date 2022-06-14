@@ -35,6 +35,7 @@ class PollController {
     }
 
     async getAll(req, res) {
+        console.log("Get All!")
         const polls = await Poll.findAll()
         return res.json(polls)
     }
