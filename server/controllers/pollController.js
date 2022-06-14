@@ -36,6 +36,7 @@ class PollController {
 
     async getOne(req, res) {
         const {pollId} = req.params
+        console.log("GetOne", pollId)
         const poll = await Poll.findOne(
             {
                 where: {id : pollId},
