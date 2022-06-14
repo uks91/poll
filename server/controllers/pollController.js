@@ -12,7 +12,7 @@ const createQuestions = async (questions, pollId) => {
         const question = await Question.create(
             {
                 pollId: pollId,
-                text: item.text,
+                text: item.name,
                 type: item.type
             })
         await createOptions(item.options, question.id)
@@ -23,6 +23,7 @@ class PollController {
 
     async create(req, res) {
         const {name, description, questions} = req.body
+        console.log("N@@@@@@@@@@@@@me is ", name)
         const poll = await Poll.create({name, description})
         await createQuestions(questions, poll.id)
         return res.json(poll)
