@@ -6,7 +6,7 @@ const Poll = () => {
     const {id} = useParams()
     const {pollsStore} = useContext(Context)
     const poll = pollsStore.getPoll(id)
-    console.log(poll.pollId, poll.pollName)
+    // console.log(poll.pollId, poll.pollName)
     console.log(process.env.REACT_APP_API_URL)
     return (
         <div>
