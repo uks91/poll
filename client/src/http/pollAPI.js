@@ -11,6 +11,6 @@ export const $getPolls = async () => {
 }
 
 export const $getPoll = async (id) => {
-    const {data} = await $authHost.get('polls/', {params: {pollId: id}})
+    const {data} = await $authHost.get('polls/' + id)
     return data
 }

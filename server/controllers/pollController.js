@@ -19,6 +19,11 @@ const createQuestions = async (questions, pollId) => {
     }
 }
 
+const findQuestions = async (pollId) => {
+    const questions = await Question.findAll({where: {pollId: pollId}, include: Option})
+    return questions
+}
+
 class PollController {
 
     async create(req, res) {
@@ -41,9 +46,23 @@ class PollController {
             {
                 where: {id : pollId},
                 // include: [{name: DeviceInfo, as: 'info'}]
+                include: {model: Question, include: Option}
             },
         )
+        const questions = await findQuestions(pollId)
+        // const poll = {
+        //
+        // }
+        // poll.questions = questions
+
+        console.log("poll!!!!", poll)
         return res.json(poll)
+        return res.json({
+            id: poll.id,
+            name: poll.name,
+            description: poll.description,
+            questions
+        })
     }
 }
 
