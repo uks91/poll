@@ -52,6 +52,13 @@ const Poll = observer(() => {
     // console.log(process.env.REACT_APP_API_URL)
     // await $getPoll(id)
     // console.log("answer: ", answer)
+
+    if (pollsStore.questions == undefined) {
+        return (
+            <div>Опрос уже пройден!</div>
+        )
+    }
+
     return (
         <Form>
             {pollStruct.questions.map(quest =>

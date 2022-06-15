@@ -22,11 +22,11 @@ const createQuestions = async (questions, pollId) => {
 
 const checkSubmission = async (authorization, pollId) => {
     const userId = jwt.decode(authorization.split(' ')[1], {}).id
-    const submission = Submission.findOne({where: {
+    const submission = await Submission.findOne({where: {
             userId,
             pollId
         }})
-    return submission.id == null
+    return submission.id != null
 }
 
 class PollController {
@@ -47,23 +47,27 @@ class PollController {
     async getOne(req, res) {
         const {pollId} = req.params
         console.log("GetOne", pollId)
-        // const userId = jwt.decode(req.headers.authorization.split(' ')[1], {}).id
-        // const submission = Submission.findOne({where: {
-        //         userId,
-        //         pollId
-        //     }})
-        if (await checkSubmission(req.headers.authorization, pollId)) {
-            return res.json({message: "Опрос уже пройден!"})
+        const token = jwt.decode(req.headers.authorization.split(' ')[1], {})
+
+        if (token.role == "USER") {
+
+            if (await checkSubmission(req.headers.authorization, pollId)) {
+                return res.json({message: "Опрос уже пройден!"})
+            }
+
+            const poll = await Poll.findOne(
+                {
+                    where: {id: pollId},
+                    include: {model: Question, include: Option}
+                },
+            )
+
+            return res.json(poll)
         }
+        else if (token.role == "ADMIN") {
 
-        const poll = await Poll.findOne(
-            {
-                where: {id : pollId},
-                include: {model: Question, include: Option}
-            },
-        )
-
-        return res.json(poll)
+        }
+        return res.json({})
     }
 
     async sendResults (req, res) {
