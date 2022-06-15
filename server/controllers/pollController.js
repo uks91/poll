@@ -1,5 +1,6 @@
-const {Poll, Question, Option} = require('../models/models')
+const {Poll, Question, Option, Submission, Answer} = require('../models/models')
 const ApiError = require('../error/ApiError');
+const jwt = require('jsonwebtoken')
 
 const createOptions = async (options, questionId) => {
     for (const item of options) {
@@ -19,9 +20,13 @@ const createQuestions = async (questions, pollId) => {
     }
 }
 
-const findQuestions = async (pollId) => {
-    const questions = await Question.findAll({where: {pollId: pollId}, include: Option})
-    return questions
+const checkSubmission = async (authorization, pollId) => {
+    const userId = jwt.decode(authorization.split(' ')[1], {}).id
+    const submission = Submission.findOne({where: {
+            userId,
+            pollId
+        }})
+    return submission.id == null
 }
 
 class PollController {
@@ -42,31 +47,64 @@ class PollController {
     async getOne(req, res) {
         const {pollId} = req.params
         console.log("GetOne", pollId)
+        // const userId = jwt.decode(req.headers.authorization.split(' ')[1], {}).id
+        // const submission = Submission.findOne({where: {
+        //         userId,
+        //         pollId
+        //     }})
+        if (await checkSubmission(req.headers.authorization, pollId)) {
+            return res.json({message: "Опрос уже пройден!"})
+        }
+
         const poll = await Poll.findOne(
             {
                 where: {id : pollId},
-                // include: [{name: DeviceInfo, as: 'info'}]
                 include: {model: Question, include: Option}
             },
         )
-        const questions = await findQuestions(pollId)
-        // const poll = {
-        //
-        // }
-        // poll.questions = questions
 
-        console.log("poll!!!!", poll)
         return res.json(poll)
-        return res.json({
-            id: poll.id,
-            name: poll.name,
-            description: poll.description,
-            questions
-        })
     }
 
     async sendResults (req, res) {
-        console.log(req.body)
+        const {answers} = req.body
+        const {pollId} = req.params
+        // console.log(answers)
+        if (await checkSubmission(req.headers.authorization, pollId)) {
+            return res.json({message: "Опрос уже пройден!"})
+        }
+        const token = jwt.decode(req.headers.authorization.split(' ')[1], {})
+        const submission = await Submission.create({
+            userId: token.id,
+            pollId: pollId,
+        })
+        for (const answerAndId of answers) {
+            const {questionId, answer} = answerAndId
+            console.log("Question: ", questionId)
+            let obj = {
+                submissionId: submission.id,
+                questionId,
+                text: null,
+                optionId: null,
+            }
+            if (typeof (answer) == "string") {
+                obj.text = answer
+               await Answer.create (obj)
+            }
+            else if (typeof (answer) == "number") {
+                obj.optionId = answer
+                await Answer.create (obj)
+            }
+            else if (typeof (answer) ==  "object") {
+                for (const optionId of answer) {
+                    obj.optionId = optionId
+                    await Answer.create (obj)
+                }
+            }
+            // else
+            //     console.log("answer has typeof " + typeof answer)
+        }
+        // console.log("Token:", )
         return res.json({})
     }
 }

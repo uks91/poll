@@ -98,6 +98,9 @@ Answer.belongsTo(Question)
 Submission.hasMany(Answer)
 Answer.belongsTo(Submission)
 
+Option.hasMany(Answer)
+Answer.belongsTo(Option)
+
 module.exports = {
     User,
     Poll,
