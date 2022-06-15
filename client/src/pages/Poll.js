@@ -1,11 +1,11 @@
 import React, {useContext, useEffect, useState} from 'react';
 import {useParams} from "react-router-dom";
 import {Context} from "../index";
-import {$getPoll, $getPolls} from "../http/pollAPI";
+import {$getPoll, $getPolls, $sendResults} from "../http/pollAPI";
 import {observer} from "mobx-react-lite";
 import {Button, Card, Form} from "react-bootstrap";
 import Question from "../components/Question";
-import QuestionForm from "../components/QuestionForm";
+// import QuestionForm from "../components/QuestionForm";
 
 const Poll = observer(() => {
     const {id} = useParams()
@@ -35,7 +35,7 @@ const Poll = observer(() => {
         })
     }, [])
 
-    const sendResults = () => {
+    const sendResults = async () => {
         let answers = []
 
         for (let quest of pollStruct.questions) {
@@ -44,9 +44,9 @@ const Poll = observer(() => {
                 return;
             }
             answers.push({questionId: quest.id, answer: quest.answer})
-
         }
         // console.log(answers)
+        await $sendResults({answers}, id)
     }
     // console.log(poll)
     // console.log(process.env.REACT_APP_API_URL)

@@ -6,14 +6,9 @@ const pollController = require('../controllers/pollController')
 router.post('/new', pollController.create)
 router.get('/', pollController.getAll)
 
-// router.use('/:pollId/questions', (req, res, next) => {
-//     questionRouter["pollId"] = req.params["pollId"]
-//     next()
-//     },
-//     questionRouter
-// )
 
 router.get('/:pollId', pollController.getOne)
+router.post('/:pollId', pollController.sendResults)
 
 
 module.exports = router

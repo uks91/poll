@@ -11,8 +11,8 @@ const NewPoll = observer(() => {
     const [quests, setQuest] = useState([])
     // const {pollStore} = useContext(Context)
     // const {navigate} = useNavigate()
-    const {pollName, setPollName} = useState("")
-    const {pollDescription, setPollDescription} = useState("")
+    const [pollName, setPollName] = useState("")
+    const [pollDescription, setPollDescription] = useState("")
 
     const addQuest = () => {
         setQuest([...quests, {
@@ -31,7 +31,6 @@ const NewPoll = observer(() => {
             name: pollName,
             description: pollDescription,
             questions: quests}).then()
-
     }
 
     return (
@@ -41,14 +40,14 @@ const NewPoll = observer(() => {
                 as="textarea"
                 placeholder="Новый опрос"
                 value={pollName}
-                onChange={setPollName}
+                onChange={e => setPollName(e.target.value)}
             />
             <Form.Label>Описание опроса:</Form.Label>
             <FormControl
                 as="textarea"
                 placeholder="Описание опрос"
                 value={pollDescription}
-                onChange={setPollDescription}
+                onChange={e => setPollDescription(e.target.value) }
             />
             {quests.map(quest =>
                 <Card className="mt-2">

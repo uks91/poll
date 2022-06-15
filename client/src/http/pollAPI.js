@@ -14,3 +14,8 @@ export const $getPoll = async (id) => {
     const {data} = await $authHost.get('polls/' + id)
     return data
 }
+
+export const $sendResults = async  (results, id) => {
+    const {data} = await $authHost.post('polls/' + id, results)
+    return data;
+}
