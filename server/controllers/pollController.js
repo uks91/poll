@@ -26,7 +26,46 @@ const checkSubmission = async (authorization, pollId) => {
             userId,
             pollId
         }})
-    return submission.id != null
+    return submission != null
+}
+
+function QuestionResult (questionId) {
+    this.questionId = questionId
+    this.options = []
+    this.texts = []
+    this.increaseOptionCount = function (optionId) {
+        let option = this.options.find(item => item.optionId == optionId)
+        if (option === undefined) {
+            option = new OptionResult(optionId)
+            this.options.push(option)
+        }
+        option.count += 1
+    }
+}
+
+function OptionResult (optionId) {
+    this.optionId = optionId
+    this.count = 0
+}
+
+function Results () {
+    this.questions = []
+    this.increase = (questionId, optionId) => {
+        let question = this.questions.find(item => item.questionId == questionId)
+        if (question === undefined) {
+            question = new QuestionResult(questionId)
+            this.questions.push(question)
+        }
+        question.increaseOptionCount(optionId)
+    }
+    this.addText = (questionId, text) => {
+        let question = this.questions.find(item => item.questionId == questionId)
+        if (question === undefined) {
+            question = new QuestionResult(questionId)
+            this.questions.push(question)
+        }
+        question.texts.push(text)
+    }
 }
 
 class PollController {
@@ -44,30 +83,63 @@ class PollController {
         return res.json(polls)
     }
 
+    async getResults (req, res) {
+        const {pollId} = req.params
+        let results = new Results()
+        const data = await  Submission.findAll ({
+            include: {model:Answer, required: true},
+            where: {pollId: pollId}
+        })
+
+        for (const subm of data) {
+            for (const answ of subm.answers) {
+                if (answ.optionId == null)
+                    results.addText(answ.questionId, answ.text)
+                else
+                    results.increase (answ.questionId, answ.optionId)
+            }
+        }
+        return res.json(results)
+    }
+
     async getOne(req, res) {
         const {pollId} = req.params
         console.log("GetOne", pollId)
         const token = jwt.decode(req.headers.authorization.split(' ')[1], {})
 
-        if (token.role == "USER") {
-
+        // if (token.role == "USER") {
             if (await checkSubmission(req.headers.authorization, pollId)) {
                 return res.json({message: "Опрос уже пройден!"})
             }
-
             const poll = await Poll.findOne(
                 {
                     where: {id: pollId},
                     include: {model: Question, include: Option}
                 },
             )
-
             return res.json(poll)
-        }
-        else if (token.role == "ADMIN") {
-
-        }
-        return res.json({})
+        //}
+        // else if (token.role == "ADMIN") {
+        //     let results = new Results()
+        //     const data = await  Submission.findAll ({
+        //         include: {model:Answer, required: true},
+        //         where: {pollId: pollId}
+        //     })
+        //
+        //     for (const subm of data) {
+        //         for (const answ of subm.answers) {
+        //             if (answ.optionId == null)
+        //                 results.addText(answ.questionId, answ.text)
+        //             else
+        //                 results.increase (answ.questionId, answ.option)
+        //             //results2.push({question: answ.questionId, option: answ.optionId})
+        //         }
+        //     }
+        //     console.log("Results", JSON.stringify(results))
+        //     // console.log("Results2", results2)
+        //     return res.json(JSON.stringify(results))
+        // }
+        // return res.json({})
     }
 
     async sendResults (req, res) {

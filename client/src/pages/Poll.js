@@ -5,6 +5,7 @@ import {$getPoll, $getPolls, $sendResults} from "../http/pollAPI";
 import {observer} from "mobx-react-lite";
 import {Button, Card, Form} from "react-bootstrap";
 import Question from "../components/Question";
+import jwt_decode from "jwt-decode";
 // import QuestionForm from "../components/QuestionForm";
 
 const Poll = observer(() => {
@@ -22,8 +23,6 @@ const Poll = observer(() => {
 
     useEffect(() => {
         $getPoll(id).then(data => {
-            // console.log("Da1ta: ", data)
-            // console.log("Polls! ", pollsStore.polls)
             const idx = pollsStore.polls.findIndex((value) => {
                 return value.id == id
             })
@@ -31,7 +30,6 @@ const Poll = observer(() => {
                 return
             pollsStore[idx] = data
             setPollStruct(data)
-            // console.log("found index: ", idx)
         })
     }, [])
 
@@ -51,9 +49,17 @@ const Poll = observer(() => {
     // console.log(poll)
     // console.log(process.env.REACT_APP_API_URL)
     // await $getPoll(id)
-    // console.log("answer: ", answer)
+    const token =  jwt_decode(localStorage.token)
+    if (token.role == "ADMIN") {
+        console.log("pollStruct", pollStruct)
+        return (
+            <div>Привет, админ!</div>
+        )
+    }
 
-    if (pollsStore.questions == undefined) {
+
+
+    if (pollStruct.questions == undefined) {
         return (
             <div>Опрос уже пройден!</div>
         )

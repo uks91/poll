@@ -8,6 +8,7 @@ router.get('/', pollController.getAll)
 
 
 router.get('/:pollId', pollController.getOne)
+router.get('/results/:pollId', pollController.getResults)
 router.post('/:pollId', pollController.sendResults)
 
 
