@@ -4,6 +4,8 @@ import {Context} from "../index";
 import {ADMIN_ROUTE, LOGIN_ROUTE} from "../utils/consts";
 import {useNavigate} from 'react-router-dom'
 import {observer} from "mobx-react-lite";
+import NavbarCollapse from "react-bootstrap/NavbarCollapse";
+import jwt_decode from "jwt-decode";
 
 const NavBar = observer(() => {
     const {userStore} = useContext(Context)
@@ -12,12 +14,27 @@ const NavBar = observer(() => {
     const logOut = () => {
         userStore.setUser({})
         userStore.setIsAuth(false)
+        localStorage.token = ""
     }
+
+    // const token =  jwt_decode(localStorage.token)
+    // let adminContainer = ""
+    // if (token.role == "ADMIN")
+    //     adminContainer = (
+    //         <Button
+    //             variant={"outline-light"}
+    //             onClick={() => navigate(ADMIN_ROUTE)}
+    //         >
+    //             Админ  панель
+    //         </Button>
+    //     )
+
     return (
         <Navbar bg="dark" variant="dark">
-            <Container>
+            <Container className="">
+                <Navbar.Brand>Система интерактивных опросов</Navbar.Brand>
                 {userStore.isAuth ?
-                    <Nav className="m-auto" style={{color: "white"}}>
+                    <NavbarCollapse className="m-1 justify-content-end" style={{color: "white"}}>
                         <Button
                             variant={"outline-light"}
                             onClick={() => navigate(ADMIN_ROUTE)}
@@ -27,54 +44,24 @@ const NavBar = observer(() => {
                         <Button
                             variant={"outline-light"}
                             onClick={() => logOut()}
-                            className="ml-2"
+                            className="m-2"
                         >
                             Выйти
                         </Button>
-                    </Nav>
+                    </NavbarCollapse>
                     :
-                    <Nav className="m-auto" style={{color: "white"}}>
+                    <NavbarCollapse className="m-auto justify-content-end" style={{color: "white"}}>
                         <Button
                             variant={"outline-light"}
                             onClick={() => navigate(LOGIN_ROUTE)}
                         >
                             Авторизация
                         </Button>
-                    </Nav>
+                    </NavbarCollapse>
                 }
 
             </Container>
         </Navbar>
-        // <NavBar>
-        //     <Container>
-        //         {user.isAuth ?
-        //             <Nav className="ml-auto" style={{color: 'white'}}>
-        //                 <Button
-        //                     variant={"outline-light"}
-        //                     // onClick={() => navigate(ADMIN_ROUTE)}
-        //                 >
-        //                     Админ  панель
-        //                 </Button>
-        //                 <Button
-        //                     variant={"outline-light"}
-        //                     //onClick={() => logOut()}
-        //                     className="ml-2"
-        //                 >
-        //                     Выйти
-        //                 </Button>
-        //             </Nav>
-        //             :
-        //             <Nav className="ml-auto" style={{color: 'white'}}>
-        //                 <Button
-        //                     variant={"outline-light"}
-        //                     // onClick={() => navigate(LOGIN_ROUTE)}
-        //                 >
-        //                     Авторизация
-        //                 </Button>
-        //             </Nav>
-        //         }
-        //     </Container>
-        // </NavBar>
     );
 });
 

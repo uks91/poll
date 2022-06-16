@@ -1,11 +1,14 @@
 import React, {useContext, useEffect} from 'react';
-import {Container, Nav, NavLink} from "react-bootstrap";
+import {Button, Card, Col, Container, ListGroup, Nav, NavItem, NavLink, Row} from "react-bootstrap";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import {$getPolls} from "../http/pollAPI";
+import {Link, useNavigate} from "react-router-dom";
+import {ADMIN_ROUTE} from "../utils/consts";
 
 const AdminPollsList = observer (() => {
     const {pollsStore} = useContext(Context)
+    const navigate = useNavigate();
     useEffect(() => {
         $getPolls().then(data => {
             pollsStore.setPolls(data)
@@ -14,13 +17,20 @@ const AdminPollsList = observer (() => {
 
     return (
         <Container>
-            <Nav className="flex-column">
-                <NavLink href="polls/new">Добавить новый</NavLink>
-                {pollsStore.polls.map( poll =>
-                    <NavLink href={`polls/${poll.id}`}>{poll.name}</NavLink>
+            <Button
+                variant={"outline"}
+                onClick={() => navigate("new")}
+            >
+                Добавить новый опрос
+            </Button>
+            <ListGroup as="ol" className="list-group-numbered">
+                {pollsStore.polls.map( (poll, index) =>
+                    <ListGroup.Item as="li">
+                        <Link to={`polls/${poll.id}`}>{poll.name}</Link>
+                    </ListGroup.Item>
                 )
                 }
-            </Nav>
+            </ListGroup>
         </Container>
     );
 });

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import {Context} from "../index";
-import {Route, Routes, Navigate} from "react-router-dom";
+import {Route, Routes, Navigate, NavLink} from "react-router-dom";
 import Admin from "../pages/Admin";
 import Users from "../pages/Users";
 import Poll from "../pages/Poll";
@@ -10,6 +10,7 @@ import Auth from "../pages/Auth";
 import {observer} from "mobx-react-lite";
 import AdminPollsList from "../pages/AdminPollsList";
 import PollResults from "../pages/PollResults";
+import {Card, Container} from "react-bootstrap";
 
 const AppRouter = observer(() => {
     const {userStore} = useContext(Context)
@@ -19,8 +20,12 @@ const AppRouter = observer(() => {
         return (
             <Routes>
                 <Route path="/login" element={<Auth/>}/>
-                <Route path="/registration" element={<Auth/>}/>
-                {/*<Route path="*" element={<Navigate to="/login"/>}/>*/}
+                <Route path="/registration" element={<Auth/>}/>}
+                <Route path="*" element={
+                    <div>
+                        Чтобы просмотреть эту страницу, необходимо <a href="/login">авторизоваться</a>
+                    </div>}
+                />
             </Routes>
         );
     return (

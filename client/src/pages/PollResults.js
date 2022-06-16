@@ -47,7 +47,13 @@ const PollResults = observer(() => {
         })
     }, [])
 
-    // console.log("asdasdas", pollResults.questions)
+    if (pollStruct.questions.length == 0)
+        return (
+            <div>
+                <div>По-видимому, опрос ещё не проводился</div>
+                <div><a href = "/admin/polls">Назад</a></div>
+            </div>
+        )
 
     return (
         <Container>
