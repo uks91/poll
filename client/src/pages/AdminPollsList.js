@@ -4,7 +4,7 @@ import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import {$getPolls} from "../http/pollAPI";
 
-const PollsList = observer (() => {
+const AdminPollsList = observer (() => {
     const {pollsStore} = useContext(Context)
     useEffect(() => {
         $getPolls().then(data => {
@@ -15,6 +15,7 @@ const PollsList = observer (() => {
     return (
         <Container>
             <Nav className="flex-column">
+                <NavLink href="polls/new">Добавить новый</NavLink>
                 {pollsStore.polls.map( poll =>
                     <NavLink href={`polls/${poll.id}`}>{poll.name}</NavLink>
                 )
@@ -24,4 +25,4 @@ const PollsList = observer (() => {
     );
 });
 
-export default PollsList;
+export default AdminPollsList;

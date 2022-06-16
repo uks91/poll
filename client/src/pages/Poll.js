@@ -53,11 +53,9 @@ const Poll = observer(() => {
     if (token.role == "ADMIN") {
         console.log("pollStruct", pollStruct)
         return (
-            <div>Привет, админ!</div>
+            <div>Администратор не может проходить опросы!</div>
         )
     }
-
-
 
     if (pollStruct.questions == undefined) {
         return (
