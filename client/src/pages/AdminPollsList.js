@@ -5,10 +5,19 @@ import {observer} from "mobx-react-lite";
 import {$getPolls} from "../http/pollAPI";
 import {Link, useNavigate} from "react-router-dom";
 import {ADMIN_ROUTE} from "../utils/consts";
+import jwt_decode from "jwt-decode";
 
 const AdminPollsList = observer (() => {
     const {pollsStore} = useContext(Context)
     const navigate = useNavigate();
+
+    const token =  jwt_decode(localStorage.token)
+    if (token.role != "ADMIN") {
+        return (
+            <div>Доступ запрещен!</div>
+        )
+    }
+
     useEffect(() => {
         $getPolls().then(data => {
             pollsStore.setPolls(data)
