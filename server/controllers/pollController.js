@@ -118,28 +118,6 @@ class PollController {
                 },
             )
             return res.json(poll)
-        //}
-        // else if (token.role == "ADMIN") {
-        //     let results = new Results()
-        //     const data = await  Submission.findAll ({
-        //         include: {model:Answer, required: true},
-        //         where: {pollId: pollId}
-        //     })
-        //
-        //     for (const subm of data) {
-        //         for (const answ of subm.answers) {
-        //             if (answ.optionId == null)
-        //                 results.addText(answ.questionId, answ.text)
-        //             else
-        //                 results.increase (answ.questionId, answ.option)
-        //             //results2.push({question: answ.questionId, option: answ.optionId})
-        //         }
-        //     }
-        //     console.log("Results", JSON.stringify(results))
-        //     // console.log("Results2", results2)
-        //     return res.json(JSON.stringify(results))
-        // }
-        // return res.json({})
     }
 
     async sendResults (req, res) {
@@ -150,6 +128,10 @@ class PollController {
             return res.json({message: "Опрос уже пройден!"})
         }
         const token = jwt.decode(req.headers.authorization.split(' ')[1], {})
+        if (token.role == "ADMIN") {
+            return res.json({message: "Админ не может проходить опросы!"})
+        }
+
         const submission = await Submission.create({
             userId: token.id,
             pollId: pollId,

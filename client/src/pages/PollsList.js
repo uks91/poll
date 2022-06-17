@@ -1,8 +1,9 @@
 import React, {useContext, useEffect} from 'react';
-import {Container, Nav, NavLink} from "react-bootstrap";
+import {Container, ListGroup, Nav, NavLink} from "react-bootstrap";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import {$getPolls} from "../http/pollAPI";
+import {Link} from "react-router-dom";
 
 const PollsList = observer (() => {
     const {pollsStore} = useContext(Context)
@@ -14,12 +15,15 @@ const PollsList = observer (() => {
 
     return (
         <Container>
-            <Nav className="flex-column">
-                {pollsStore.polls.map( poll =>
-                    <NavLink href={`polls/${poll.id}`}>{poll.name}</NavLink>
+            <div className="mt-2">Список опросов: </div>
+            <ListGroup as="ol" className="list-group-numbered mt-2">
+                {pollsStore.polls.map( (poll, index) =>
+                    <ListGroup.Item as="li">
+                        <Link to={`polls/${poll.id}`}>{poll.name}</Link>
+                    </ListGroup.Item>
                 )
                 }
-            </Nav>
+            </ListGroup>
         </Container>
     );
 });

@@ -1,25 +1,23 @@
 import React, {useContext, useEffect, useState} from 'react';
-import {useParams} from "react-router-dom";
+import {useNavigate, useParams} from "react-router-dom";
 import {Context} from "../index";
 import {$getPoll, $getPolls, $sendResults} from "../http/pollAPI";
 import {observer} from "mobx-react-lite";
-import {Button, Card, Form} from "react-bootstrap";
+import {Button, Card, Container, Form} from "react-bootstrap";
 import Question from "../components/Question";
 import jwt_decode from "jwt-decode";
-// import QuestionForm from "../components/QuestionForm";
 
 const Poll = observer(() => {
     const {id} = useParams()
     const {pollsStore} = useContext(Context)
-    // const poll = pollsStore.getPoll(id)
     let [pollStruct, setPollStruct] = useState({questions:[]})
-    // const [answers, setAnswer] = useState([])
+    const navigate = useNavigate()
 
     useEffect(() => {
         $getPolls().then(data => {
             pollsStore.setPolls(data)
         })
-    }, []) // copy from PollsList
+    }, [])
 
     useEffect(() => {
         $getPoll(id).then(data => {
@@ -45,10 +43,9 @@ const Poll = observer(() => {
         }
         // console.log(answers)
         await $sendResults({answers}, id)
+        navigate("../")
     }
-    // console.log(poll)
-    // console.log(process.env.REACT_APP_API_URL)
-    // await $getPoll(id)
+
     const token =  jwt_decode(localStorage.token)
     if (token.role == "ADMIN") {
         console.log("pollStruct", pollStruct)
@@ -65,13 +62,16 @@ const Poll = observer(() => {
 
     return (
         <Form>
-            {pollStruct.questions.map(quest =>
-                // console.log("QQ", quest)
-                <Card className="mt-2">
-                    <Question quest={quest}/>
-                </Card>
-            )}
-            <Button onClick={sendResults}>Отправить результаты</Button>
+            <Container className="d-flex flex-column mt-2">
+                {pollStruct.questions.map(quest =>
+                    <Card className="mt-2">
+                        <Question quest={quest}/>
+                    </Card>
+                )}
+                <Container className="d-flex justify-content-center p-3">
+                    <Button onClick={sendResults}>Отправить результаты</Button>
+                </Container>
+            </Container>
         </Form>
     );
 });
