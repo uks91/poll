@@ -26,7 +26,7 @@ const AdminPollsList = observer (() => {
             <ListGroup as="ol" className="list-group-numbered">
                 {pollsStore.polls.map( (poll, index) =>
                     <ListGroup.Item as="li">
-                        <Link to={`polls/${poll.id}`}>{poll.name}</Link>
+                        <Link to={`${poll.id}`}>{poll.name}</Link>
                     </ListGroup.Item>
                 )
                 }

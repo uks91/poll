@@ -1,5 +1,5 @@
 import React, {useContext, useState} from 'react';
-import {Button, Card, Form, FormControl} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, FormControl, Row} from "react-bootstrap";
 import QuestionForm from "../components/QuestionForm";
 import {observer} from "mobx-react-lite";
 import {$createPoll} from "../http/pollAPI";
@@ -18,7 +18,7 @@ const NewPoll = observer(() => {
         setQuest([...quests, {
             name:"",
             type: 1,
-            options: []
+            options: ["12", "123"]
         }])
     }
 
@@ -35,32 +35,40 @@ const NewPoll = observer(() => {
 
     return (
         <Form>
-            <Form.Label>Название опроса:</Form.Label>
-            <FormControl
-                as="textarea"
-                placeholder="Новый опрос"
-                value={pollName}
-                onChange={e => setPollName(e.target.value)}
-            />
-            <Form.Label>Описание опроса:</Form.Label>
-            <FormControl
-                as="textarea"
-                placeholder="Описание опрос"
-                value={pollDescription}
-                onChange={e => setPollDescription(e.target.value) }
-            />
-            {quests.map(quest =>
-                <Card className="mt-2">
-                    <QuestionForm quest={quest}/>
-                </Card>
-            )}
-            <Button onClick={addQuest}>
-                Добавить вопрос
-            </Button>
-            <Button onClick={savePoll}>
-                Сохранить
-            </Button>
+            <Container className="d-flex flex-column mt-2">
+                <Form.Label>Название опроса:</Form.Label>
+                <FormControl
+                    as="textarea"
+                    placeholder="Новый опрос"
+                    value={pollName}
+                    onChange={e => setPollName(e.target.value)}
+                />
+                <Form.Label className="mt-2">Описание опроса:</Form.Label>
+                <FormControl
+                    as="textarea"
+                    placeholder="Описание опроса"
+                    value={pollDescription}
+                    onChange={e => setPollDescription(e.target.value) }
+                />
+                {quests.map((quest, index) =>
+                    <Card className="mt-2">
+                        <Row xs={2} className="p-2">
+                            <Col className="flex-shrink-0 mt-2" style={{width:"5%"}}>{index+1}.</Col>
+                            <Col lg><QuestionForm quest={quest}/></Col>
+                        </Row>
+                    </Card>
+                )}
+                <Container className="d-flex justify-content-center p-3">
+                    <Button onClick={addQuest}>
+                        Добавить вопрос
+                    </Button>
+                    <Button onClick={savePoll} className="ms-2">
+                        Сохранить
+                    </Button>
+                </Container>
+            </Container>
         </Form>
+
     );
 });
 

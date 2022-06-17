@@ -27,22 +27,26 @@ const QuestionForm = observer (({quest}) => {
     }
 
     return (
-        <Container>
-            <FormLabel>Название вопроса</FormLabel>
+        <Container className="p-2">
+            <FormLabel>Текст вопроса</FormLabel>
             <FormControl
                 as="textarea"
                 value={questText}
                 onChange={(e) => changeText(e.target.value)}
             />
-            <FormLabel>Текст вопроса</FormLabel>
-            <FormSelect
-                value={questType}
-                onChange={(e) => changeType(e.target.value)}
-            >
-                <option value="1">Один</option>
-                <option value="2">Много</option>
-                <option value="3">Текст</option>
-            </FormSelect>
+            <Container className="d-flex align-items-end mt-2">
+                <FormLabel className="flex-shrink-0">Тип ответа</FormLabel>
+                <FormSelect
+                    value={questType}
+                    onChange={(e) => changeType(e.target.value)}
+                    className="ms-2"
+                >
+                    <option value="1">С единственным выбором</option>
+                    <option value="2">С множественным выбором</option>
+                    <option value="3">Текстовый</option>
+                </FormSelect>
+            </Container>
+            {questType < 3 && <FormLabel className="mt-2">Варианты ответа: </FormLabel>}
             {
                 questType < 3 &&
                 options.map((option, index) =>
@@ -50,10 +54,10 @@ const QuestionForm = observer (({quest}) => {
                     type="text"
                     value={option}
                     onChange={(text) => changeOption(text.target.value, index)}
+                    className="mt-2"
                 />)
-
             }
-            {questType < 3 && <Button onClick={addOption}>+</Button>}
+            {questType < 3 && <Button onClick={addOption} className="mt-2">+</Button>}
         </Container>
     );
 });
