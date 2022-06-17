@@ -5,16 +5,7 @@ export default class UserStore {
         console.log("ctor!")
         this._isAuth = false
         this._user = {}
-        this._users = [
-            {
-                "id" : 1,
-                "name" : "admin"
-            },
-            {
-                "id" : 2,
-                "name" : "user1"
-            },
-        ]
+        this._users = []
 
         // this._userIsAdmin = true;
         makeAutoObservable(this)
@@ -26,6 +17,10 @@ export default class UserStore {
     }
     setUser(user) {
         this._user = user
+    }
+
+    setUsers(users) {
+        this._users = users
     }
 
     get isAuth() {

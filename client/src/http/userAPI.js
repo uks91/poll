@@ -20,3 +20,9 @@ export const $check = async () => {
     localStorage.setItem('token', data.token)
     return jwt_decode(data.token)
 }
+
+export const $getAllUsers = async (login, password) => {
+    const {data} = await $host.get('user')
+    console.log("Users", data)
+    return data
+}
