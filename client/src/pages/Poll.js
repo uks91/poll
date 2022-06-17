@@ -48,7 +48,7 @@ const Poll = observer(() => {
 
     const token =  jwt_decode(localStorage.token)
     if (token.role == "ADMIN") {
-        console.log("pollStruct", pollStruct)
+
         return (
             <div>Администратор не может проходить опросы!</div>
         )
@@ -62,9 +62,16 @@ const Poll = observer(() => {
 
     return (
         <Form>
+
             <Container className="d-flex flex-column mt-2">
+                <h1>
+                    {pollStruct.name}
+                </h1>
+                <div>
+                    <i>{pollStruct.description}</i>
+                </div>
                 {pollStruct.questions.map(quest =>
-                    <Card className="mt-2">
+                    <Card className="mt-2 mb-2 p-2">
                         <Question quest={quest}/>
                     </Card>
                 )}

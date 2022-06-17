@@ -5,13 +5,13 @@ import {observer} from "mobx-react-lite";
 import {$createPoll} from "../http/pollAPI";
 import jwt_decode from "jwt-decode";
 // import {Context} from "../index";
-// import {useNavigate} from "react-router-dom";
+import {useNavigate} from "react-router-dom";
 // import {ADMIN_ROUTE} from "../utils/consts";
 
 const NewPoll = observer(() => {
     const [quests, setQuest] = useState([])
     // const {pollStore} = useContext(Context)
-    // const {navigate} = useNavigate()
+    const {navigate} = useNavigate()
     const [pollName, setPollName] = useState("")
     const [pollDescription, setPollDescription] = useState("")
 
@@ -25,7 +25,7 @@ const NewPoll = observer(() => {
         setQuest([...quests, {
             name:"",
             type: 1,
-            options: ["12", "123"]
+            options: []
         }])
     }
 
@@ -38,6 +38,7 @@ const NewPoll = observer(() => {
             name: pollName,
             description: pollDescription,
             questions: quests}).then()
+        navigate("../")
     }
 
     return (

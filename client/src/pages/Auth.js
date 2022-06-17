@@ -59,14 +59,14 @@ const Auth = observer (() => {
                     <FormControl
                         className="mt-3"
                         placeholder="Введите ваш пароль..."
-                        // type="password"
+                        type="password"
                         onChange={e => changePass(e.target.value, 0) }
                     />
                     {!isLogin &&
                         <FormControl
                             className="mt-3"
                             placeholder="Повторите пароль..."
-                            // type="password"
+                            type="password"
                             onChange={e => changePass(e.target.value, 1) }
                         />
                     }
