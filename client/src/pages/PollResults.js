@@ -55,8 +55,6 @@ const PollResults = observer(() => {
             </div>
         )
 
-    console.log(pollResults)
-
     return (
         <Container>
             {pollStruct.questions.map(quest =>

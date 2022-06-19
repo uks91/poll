@@ -8,7 +8,6 @@ const Users = observer (() => {
     const {userStore} = useContext(Context)
     useEffect(() => {
         $getAllUsers().then(data => {
-            console.log(data)
             userStore.setUsers(data.users)
         })
     }, [])

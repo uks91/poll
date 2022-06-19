@@ -21,6 +21,5 @@ export const $check = async () => {
 
 export const $getAllUsers = async (login, password) => {
     const {data} = await $host.get('user')
-    console.log("Users", data)
     return data
 }
