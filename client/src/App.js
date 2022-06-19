@@ -7,6 +7,8 @@ import {Context} from "./index";
 import {$check} from "./http/userAPI";
 
 const App = observer (() => {
+    console.log("qweqweqwe", window.location.host.split(':')[0])
+
     const {userStore} = useContext(Context)
     useEffect(() => {
         $check().then(data => {

@@ -1,11 +1,11 @@
 import axios from "axios";
 
 const $host = axios.create({
-    baseURL: process.env.REACT_APP_API_URL
+    baseURL: "http://"+window.location.host.split(':')[0]+":4000/api"
 })
 
 const $authHost = axios.create({
-    baseURL: process.env.REACT_APP_API_URL
+    baseURL: "http://"+window.location.host.split(':')[0]+":4000/api"
 })
 
 const authInterceptor = config => {
