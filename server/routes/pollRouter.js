@@ -1,7 +1,6 @@
 const Router = require('express')
 const router = new Router()
 const pollController = require('../controllers/pollController')
-// const questionRouter = require("./questionRouter")
 
 router.post('/new', pollController.create)
 router.get('/', pollController.getAll)

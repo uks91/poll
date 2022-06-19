@@ -2,7 +2,6 @@ import React, {useContext, useEffect} from 'react';
 import {Container, Nav, NavLink} from "react-bootstrap";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
-import {$getPolls} from "../http/pollAPI";
 import {$getAllUsers} from "../http/userAPI";
 
 const Users = observer (() => {

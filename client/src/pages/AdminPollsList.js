@@ -1,10 +1,9 @@
 import React, {useContext, useEffect} from 'react';
-import {Button, Card, Col, Container, ListGroup, Nav, NavItem, NavLink, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, ListGroup} from "react-bootstrap";
 import {Context} from "../index";
 import {observer} from "mobx-react-lite";
 import {$getPolls} from "../http/pollAPI";
 import {Link, useNavigate} from "react-router-dom";
-import {ADMIN_ROUTE} from "../utils/consts";
 import jwt_decode from "jwt-decode";
 
 const AdminPollsList = observer (() => {

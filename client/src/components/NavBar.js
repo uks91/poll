@@ -5,7 +5,6 @@ import {ADMIN_ROUTE, LOGIN_ROUTE} from "../utils/consts";
 import {useNavigate} from 'react-router-dom'
 import {observer} from "mobx-react-lite";
 import NavbarCollapse from "react-bootstrap/NavbarCollapse";
-import jwt_decode from "jwt-decode";
 
 const NavBar = observer(() => {
     const {userStore} = useContext(Context)
@@ -16,18 +15,6 @@ const NavBar = observer(() => {
         userStore.setIsAuth(false)
         localStorage.token = ""
     }
-
-    // const token =  jwt_decode(localStorage.token)
-    // let adminContainer = ""
-    // if (token.role == "ADMIN")
-    //     adminContainer = (
-    //         <Button
-    //             variant={"outline-light"}
-    //             onClick={() => navigate(ADMIN_ROUTE)}
-    //         >
-    //             Админ  панель
-    //         </Button>
-    //     )
 
     return (
         <Navbar bg="dark" variant="dark">

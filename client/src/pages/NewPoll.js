@@ -4,9 +4,7 @@ import QuestionForm from "../components/QuestionForm";
 import {observer} from "mobx-react-lite";
 import {$createPoll} from "../http/pollAPI";
 import jwt_decode from "jwt-decode";
-// import {Context} from "../index";
 import {useNavigate} from "react-router-dom";
-// import {ADMIN_ROUTE} from "../utils/consts";
 
 const NewPoll = observer(() => {
     const [quests, setQuest] = useState([])

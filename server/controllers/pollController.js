@@ -1,5 +1,4 @@
 const {Poll, Question, Option, Submission, Answer} = require('../models/models')
-const ApiError = require('../error/ApiError');
 const jwt = require('jsonwebtoken')
 
 const createOptions = async (options, questionId) => {
@@ -78,7 +77,6 @@ class PollController {
     }
 
     async getAll(req, res) {
-        console.log("Get All!")
         const polls = await Poll.findAll()
         return res.json(polls)
     }
@@ -104,26 +102,23 @@ class PollController {
 
     async getOne(req, res) {
         const {pollId} = req.params
-        console.log("GetOne", pollId)
         const token = jwt.decode(req.headers.authorization.split(' ')[1], {})
 
-        // if (token.role == "USER") {
-            if (await checkSubmission(req.headers.authorization, pollId)) {
-                return res.json({message: "Опрос уже пройден!"})
-            }
-            const poll = await Poll.findOne(
-                {
-                    where: {id: pollId},
-                    include: {model: Question, include: Option}
-                },
-            )
-            return res.json(poll)
+        if (await checkSubmission(req.headers.authorization, pollId)) {
+            return res.json({message: "Опрос уже пройден!"})
+        }
+        const poll = await Poll.findOne(
+            {
+                where: {id: pollId},
+                include: {model: Question, include: Option}
+            },
+        )
+        return res.json(poll)
     }
 
     async sendResults (req, res) {
         const {answers} = req.body
         const {pollId} = req.params
-        // console.log(answers)
         if (await checkSubmission(req.headers.authorization, pollId)) {
             return res.json({message: "Опрос уже пройден!"})
         }
@@ -138,7 +133,6 @@ class PollController {
         })
         for (const answerAndId of answers) {
             const {questionId, answer} = answerAndId
-            console.log("Question: ", questionId)
             let obj = {
                 submissionId: submission.id,
                 questionId,
@@ -159,10 +153,7 @@ class PollController {
                     await Answer.create (obj)
                 }
             }
-            // else
-            //     console.log("answer has typeof " + typeof answer)
         }
-        // console.log("Token:", )
         return res.json({})
     }
 }

@@ -41,7 +41,6 @@ const Poll = observer(() => {
             }
             answers.push({questionId: quest.id, answer: quest.answer})
         }
-        // console.log(answers)
         await $sendResults({answers}, id)
         navigate("../")
     }

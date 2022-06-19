@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Container, FormControl, FormLabel, FormSelect, FormText} from "react-bootstrap";
+import {Button, Container, FormControl, FormLabel, FormSelect} from "react-bootstrap";
 import {observer} from "mobx-react-lite";
 
 const QuestionForm = observer (({quest}) => {

@@ -21,7 +21,6 @@ const Question = sequelize.define('question', {
 })
 
 const Option = sequelize.define('option', {
-    //console.log ("Option!")
     id : {type: DataTypes.INTEGER, primaryKey:true, autoIncrement: true},
     text: {type: DataTypes.TEXT}
 })

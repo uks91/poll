@@ -7,7 +7,6 @@ export default class UserStore {
         this._user = {}
         this._users = []
 
-        // this._userIsAdmin = true;
         makeAutoObservable(this)
     }
 

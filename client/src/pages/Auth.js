@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
-import {Button, Card, Col, Container, Form, FormControl, FormLabel, Nav, NavItem, NavLink, Row} from "react-bootstrap";
+import {Button, Card, Col, Container, Form, FormControl, FormLabel, Row} from "react-bootstrap";
 import {HOME_ROUTE, LOGIN_ROUTE, REGISTRATION_ROUTE} from "../utils/consts";
 import {Link, useLocation, useNavigate} from "react-router-dom";
 import {$login, $registration} from "../http/userAPI";

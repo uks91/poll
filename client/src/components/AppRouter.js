@@ -10,12 +10,9 @@ import Auth from "../pages/Auth";
 import {observer} from "mobx-react-lite";
 import AdminPollsList from "../pages/AdminPollsList";
 import PollResults from "../pages/PollResults";
-import {Card, Container} from "react-bootstrap";
 
 const AppRouter = observer(() => {
     const {userStore} = useContext(Context)
-    console.log("IsAuth: ", userStore.isAuth, userStore.user)
-    console.log(localStorage.token)
     if (!userStore.isAuth)
         return (
             <Routes>

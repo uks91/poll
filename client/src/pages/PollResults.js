@@ -25,7 +25,7 @@ const PollResults = observer(() => {
         $getPolls().then(data => {
             pollsStore.setPolls(data)
         })
-    }, []) // copy from PollsList
+    }, [])
 
     useEffect(() => {
         $getResults(id).then(data => {

@@ -35,7 +35,6 @@ const QuestionResults = observer (({quest, questionResults}) => {
         for (let p of percents) {
             p.percent = p.count * 100.0 / totalCount
         }
-        // console.log(percents)
         options = (
             <Container>
                 {quest.options.map(option =>

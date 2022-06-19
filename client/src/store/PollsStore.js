@@ -11,10 +11,6 @@ export default class PollsStore {
         this._polls = polls
     }
 
-    getPoll (id) {
-        return this._polls.find((item) => item.pollId == id)
-    }
-
     get polls () {
         return this._polls
     }
@@ -23,7 +19,7 @@ export default class PollsStore {
         this._pollResults = pollResults
     }
 
-    get pollResultss () {
+    get pollResults () {
         return this._pollResults
     }
 }
